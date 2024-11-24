@@ -52,3 +52,23 @@ ADD CONSTRAINT fk_ba_books FOREIGN KEY (ISBN) REFERENCES Books (ISBN)
 ON DELETE CASCADE ON UPDATE CASCADE,
 ADD CONSTRAINT fk_ba_authors FOREIGN KEY (author_id) REFERENCES Authors (author_id)
 ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- 2NF ------------------------------------------------------------------------
+CREATE TABLE Courses AS
+SELECT DISTINCT
+	CRN,
+	course_name
+FROM Unnormalized;
+ALTER TABLE Courses ADD PRIMARY KEY (CRN);
+
+CREATE TABLE Coursebooks (
+    CRN INT,
+    ISBN INT,
+    PRIMARY KEY (CRN, ISBN),
+    FOREIGN KEY (CRN) REFERENCES Courses (CRN) ON DELETE CASCADE,
+    FOREIGN KEY (ISBN) REFERENCES Books (ISBN) ON DELETE CASCADE
+);
+
+INSERT INTO Coursebooks (CRN, ISBN)
+SELECT CRN, ISBN
+FROM Unnormalized;
