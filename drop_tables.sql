@@ -1,0 +1,1 @@
+DROP TABLE IF EXISTS Unnormalized, Books, Authors, Book_authors, Courses, Coursebooks, Publishers;
